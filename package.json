@@ -1,0 +1,27 @@
+{
+  "name": "ff-app",
+  "version": "1.0.0",
+  "description": "App for automating fundflakes npo signups",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kickinbahk/ff-app.git"
+  },
+  "author": "Josiah Mory",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kickinbahk/ff-app/issues"
+  },
+  "homepage": "https://github.com/kickinbahk/ff-app#readme",
+  "dependencies": {
+    "cookie": "^0.3.1",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "nonce": "^1.0.4",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}
