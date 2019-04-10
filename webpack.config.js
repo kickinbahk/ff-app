@@ -13,6 +13,7 @@ module.exports = {
     filename: 'index.js'
   },
   target: 'node',
+  mode: "development",
   node: {
     // Need this when working with express, otherwise the build fails
     __dirname: false,   // if you don't put this is, __dirname
