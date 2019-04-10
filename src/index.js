@@ -3,8 +3,6 @@ import express from 'express'
 
 const app = express(), DIST_DIR = __dirname, HTML_FILE = path.join(DIST_DIR, 'index.html')
 const dotenv = require('dotenv').config();
-const express = require('express');
-const app = express();
 const crypto = require('crypto');
 const cookie = require('cookie');
 const nonce = require('nonce')();
