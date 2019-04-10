@@ -13,7 +13,7 @@ module.exports = {
     filename: 'index.js'
   },
   target: 'node',
-  mode: "development",
+  mode: 'production',
   node: {
     // Need this when working with express, otherwise the build fails
     __dirname: false,   // if you don't put this is, __dirname
@@ -40,9 +40,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: "index.html",
-      filename: "index.html",
-      excludeChunks: [ './src/index.js' ]
+      template: "./index.html",
+      filename: "./index.html",
+      excludeChunks: [ 'index.js' ]
     })
   ]
 }
