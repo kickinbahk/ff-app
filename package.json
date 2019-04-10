@@ -4,7 +4,7 @@
   "description": "App for automating fundflakes npo signups",
   "private": true,
   "scripts": {
-    "start": "node ./dist/index.js",
+    "start": "node ./dist/server.js",
     "build": "rm -rf dist && webpack --mode development",
     "test": "test"
   },

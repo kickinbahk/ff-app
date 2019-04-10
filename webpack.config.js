@@ -10,7 +10,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'index.js'
+    filename: '[name].js'
   },
   target: 'node',
   mode: 'production',
@@ -42,7 +42,7 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html",
-      excludeChunks: [ 'index.js' ]
+      excludeChunks: [ 'server' ]
     })
   ]
 }
