@@ -2,6 +2,7 @@ import path from 'path'
 import express from 'express'
 import createApp from '@shopify/app-bridge';
 import {Redirect} from '@shopify/app-bridge/actions';
+import {Toast} from '@shopify/app-bridge/actions';
 
 const app = express(), DIST_DIR = __dirname, HTML_FILE = path.join(DIST_DIR, 'index.html');
 const dotenv = require('dotenv').config();
@@ -116,12 +117,29 @@ app.get('/shopify/callback', (req, res) => {
 
     // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
     } else {
-      const app = createApp({
+      const adminApp = createApp({
         apiKey: apiKey,
         shopOrigin: shop,
       });
 
-      Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
+      const toastOptions = {
+        message: 'Product saved',
+        duration: 5000,
+      };
+      
+      const toastNotice = Toast.create(adminApp, toastOptions);
+      toastNotice.subscribe(Toast.Action.SHOW, data => {
+        // Do something with the show action
+      });
+      
+      toastNotice.subscribe(Toast.Action.CLEAR, data => {
+        // Do something with the clear action
+      });
+      
+      // Dispatch the show Toast action, using the toastOptions above
+      toastNotice.dispatch(Toast.Action.SHOW);      
+
+      Redirect.create(adminApp).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
     }    
 
   } else {
