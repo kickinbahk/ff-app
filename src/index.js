@@ -110,7 +110,7 @@ app.get('/shopify/callback', (req, res) => {
         } else {
           const app = createApp({
             apiKey: apiKey,
-            shopOrigin: shopOrigin,
+            shopOrigin: shop,
           });
 
           Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
