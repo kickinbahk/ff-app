@@ -111,37 +111,6 @@ app.get('/shopify/callback', (req, res) => {
       res.status(error.statusCode).send(error.error.error_description);
     });
 
-    // If the current window is the 'parent', change the URL by setting location.href
-    if (window.top == window.self) {
-      window.location.assign(`https://${shop}/admin${permissionUrl}`)
-
-    // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
-    } else {
-      const adminApp = createApp({
-        apiKey: apiKey,
-        shopOrigin: shop,
-      });
-
-      const toastOptions = {
-        message: 'Product saved',
-        duration: 5000,
-      };
-      
-      const toastNotice = Toast.create(adminApp, toastOptions);
-      toastNotice.subscribe(Toast.Action.SHOW, data => {
-        // Do something with the show action
-      });
-      
-      toastNotice.subscribe(Toast.Action.CLEAR, data => {
-        // Do something with the clear action
-      });
-      
-      // Dispatch the show Toast action, using the toastOptions above
-      toastNotice.dispatch(Toast.Action.SHOW);      
-
-      Redirect.create(adminApp).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
-    }    
-
   } else {
     res.status(400).send('Required parameters missing');
   }
