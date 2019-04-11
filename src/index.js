@@ -3,6 +3,7 @@ import express from 'express'
 import createApp from '@shopify/app-bridge';
 import {Redirect} from '@shopify/app-bridge/actions';
 import {Toast} from '@shopify/app-bridge/actions';
+import Shopify from 'shopify-api-node'
 
 const app = express(), DIST_DIR = __dirname, HTML_FILE = path.join(DIST_DIR, 'index.html');
 const dotenv = require('dotenv').config();
@@ -101,6 +102,7 @@ app.get('/shopify/callback', (req, res) => {
       
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
+        res.end(shopResponse);
 
         // If the current window is the 'parent', change the URL by setting location.href
         if (window.top == window.self) {
