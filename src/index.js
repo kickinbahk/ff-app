@@ -1,7 +1,9 @@
 import path from 'path'
 import express from 'express'
+import createApp from '@shopify/app-bridge';
+import {Redirect} from '@shopify/app-bridge/actions';
 
-const app = express(), DIST_DIR = __dirname, HTML_FILE = path.join(DIST_DIR, 'index.html')
+const app = express(), DIST_DIR = __dirname, HTML_FILE = path.join(DIST_DIR, 'index.html');
 const dotenv = require('dotenv').config();
 const crypto = require('crypto');
 const cookie = require('cookie');
@@ -13,6 +15,7 @@ const apiKey = process.env.SHOPIFY_API_KEY;
 const apiSecret = process.env.SHOPIFY_API_SECRET;
 const scopes = 'read_products';
 const forwardingAddress = "https://fundflakes-app.herokuapp.com"; // Replace this with your HTTPS Forwarding address
+const permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,read_content&redirect_uri=${forwardingAddress}`;
 
 app.use(express.static(DIST_DIR))
 
@@ -20,11 +23,11 @@ app.get('/', (req, res) => {
     res.sendFile(HTML_FILE)
 })
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`App listening to ${PORT}....`)
-    console.log('Press Ctrl+C to quit.')
+    console.log(`App listening to ${PORT}....`);
+    console.log('Press Ctrl+C to quit.');
 })
 
 app.get('/shopify', (req, res) => {
@@ -106,6 +109,20 @@ app.get('/shopify/callback', (req, res) => {
     .catch((error) => {
       res.status(error.statusCode).send(error.error.error_description);
     });
+
+    // If the current window is the 'parent', change the URL by setting location.href
+    if (window.top == window.self) {
+      window.location.assign(`https://${shop}/admin${permissionUrl}`)
+
+    // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
+    } else {
+      const app = createApp({
+        apiKey: apiKey,
+        shopOrigin: shop,
+      });
+
+      Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
+    }    
 
   } else {
     res.status(400).send('Required parameters missing');
