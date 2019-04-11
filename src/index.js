@@ -102,7 +102,6 @@ app.get('/shopify/callback', (req, res) => {
       
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
-        res.end("This is for the admin");
 
         // If the current window is the 'parent', change the URL by setting location.href
         if (window.top == window.self) {
@@ -110,9 +109,13 @@ app.get('/shopify/callback', (req, res) => {
 
         // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
         } else {
+          const shopify = new Shopify({
+            shopName: shop,
+            apiKey: apiKey
+          });          
           const adminApp = createApp({
             apiKey: apiKey,
-            shopOrigin: shop,
+            shopOrigin: shopify.shopName,
           });
 
           const toastOptions = {
@@ -123,10 +126,12 @@ app.get('/shopify/callback', (req, res) => {
           const toastNotice = Toast.create(adminApp, toastOptions);
           toastNotice.subscribe(Toast.Action.SHOW, data => {
             // Do something with the show action
+              res.end("This is for the admin");
           });
           
           toastNotice.subscribe(Toast.Action.CLEAR, data => {
             // Do something with the clear action
+            res.end("This is for the admin2");
           });
           
           // Dispatch the show Toast action, using the toastOptions above
