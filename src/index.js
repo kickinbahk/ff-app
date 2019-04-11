@@ -102,36 +102,19 @@ app.get('/shopify/callback', (req, res) => {
       
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
+        // If the current window is the 'parent', change the URL by setting location.href
+        if (window.top == window.self) {
+          window.location.assign(`https://${shopOrigin}/admin${permissionUrl}`)
 
-          const shopify = new Shopify({
-            shopName: shop,
-            apiKey: apiKey
-          });          
-          const adminApp = createApp({
+        // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
+        } else {
+          const app = createApp({
             apiKey: apiKey,
-            shopOrigin: shopify.shopName,
+            shopOrigin: shopOrigin,
           });
 
-          const toastOptions = {
-            message: 'Product saved',
-            duration: 5000,
-          };
-          
-          const toastNotice = Toast.create(adminApp, toastOptions);
-          toastNotice.subscribe(Toast.Action.SHOW, data => {
-            // Do something with the show action
-              res.end("This is for the admin");
-          });
-          
-          toastNotice.subscribe(Toast.Action.CLEAR, data => {
-            // Do something with the clear action
-            res.end("This is for the admin2");
-          });
-          
-          // Dispatch the show Toast action, using the toastOptions above
-          toastNotice.dispatch(Toast.Action.SHOW);      
-
-          Redirect.create(adminApp).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);          
+          Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
+        }       
       })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
@@ -140,9 +123,6 @@ app.get('/shopify/callback', (req, res) => {
     .catch((error) => {
       res.status(error.statusCode).send(error.error.error_description);
     });
-
-
-
   } else {
     res.status(400).send('Required parameters missing');
   }
