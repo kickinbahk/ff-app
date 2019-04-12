@@ -107,7 +107,7 @@ app.get('/shopify/callback', (req, res) => {
 
       
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
-      .then((shopResponse) => {
+      .then(() => {
 
         console.log("before if")
         if (window.top == window.self) {
