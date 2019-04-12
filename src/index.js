@@ -21,7 +21,7 @@ const forwardingAddress = "https://fundflakes-app.herokuapp.com"; // Replace thi
 const permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,read_content&redirect_uri=${forwardingAddress}`;
 
 app.use(express.static(DIST_DIR));
-app.use(helmet.frameguard());
+app.use(helmet.frameguard({ action: 'sameorigin' }))
 
 app.get('/', (req, res) => {
     res.sendFile(HTML_FILE)
