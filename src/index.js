@@ -105,8 +105,24 @@ app.get('/shopify/callback', (req, res) => {
       
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
-        // If the current window is the 'parent', change the URL by setting location.href
-        res.end(shopResponse); 
+        res.status(200).end();
+        console.log("before if")
+        if (window.top == window.self) {
+          window.location.assign(`https://${shop}/admin${permissionUrl}`);
+  
+          console.log('in if')
+  
+        // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
+        } else {
+          const app = createApp({
+            apiKey: apiKey,
+            shopOrigin: shop,
+          });
+          console.log(' before redirect')
+  
+  
+          Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
+        }          
       })  
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
