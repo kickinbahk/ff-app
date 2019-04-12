@@ -99,12 +99,13 @@ app.get('/shopify/callback', (req, res) => {
       const shopRequestHeaders = {
         'X-Shopify-Access-Token': accessToken,
       };      
+
       
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
         // If the current window is the 'parent', change the URL by setting location.href
         if (window.top == window.self) {
-          window.location.assign(`https://${shopOrigin}/admin${permissionUrl}`)
+          window.location.assign(`https://${shop}/admin${permissionUrl}`)
 
         // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
         } else {
