@@ -104,7 +104,7 @@ app.get('/shopify/callback', (req, res) => {
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
         // If the current window is the 'parent', change the URL by setting location.href
-        console.log(shop)
+        console.log(shopResponse)
         if (window.top == window.self) {
           window.location.assign(`https://${shop}/admin${permissionUrl}`);
 
