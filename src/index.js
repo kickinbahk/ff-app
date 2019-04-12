@@ -114,24 +114,7 @@ app.get('/shopify/callback', (req, res) => {
     })
     .catch((error) => {
       res.status(error.statusCode).send(error.error.error_description);
-    });
-
-    if (window.top == window.self) {
-      window.location.assign(`https://${shop}/admin${permissionUrl}`);
-
-      console.log('in if')
-
-    // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
-    } else {
-      const app = createApp({
-        apiKey: apiKey,
-        shopOrigin: shop,
-      });
-      console.log(' before redirect')
-
-
-      Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
-    }  
+    }); 
   } else {
     res.status(400).send('Required parameters missing');
   }
