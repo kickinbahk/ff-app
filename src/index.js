@@ -5,6 +5,7 @@ import {Redirect} from '@shopify/app-bridge/actions';
 import {Toast} from '@shopify/app-bridge/actions';
 import Shopify from 'shopify-api-node'
 
+const helmet = require('helmet')
 const app = express(), DIST_DIR = __dirname, HTML_FILE = path.join(DIST_DIR, 'index.html');
 const dotenv = require('dotenv').config();
 const crypto = require('crypto');
@@ -19,7 +20,8 @@ const scopes = 'read_products';
 const forwardingAddress = "https://fundflakes-app.herokuapp.com"; // Replace this with your HTTPS Forwarding address
 const permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,read_content&redirect_uri=${forwardingAddress}`;
 
-app.use(express.static(DIST_DIR))
+app.use(express.static(DIST_DIR));
+app.use(helmet.frameguard());
 
 app.get('/', (req, res) => {
     res.sendFile(HTML_FILE)
