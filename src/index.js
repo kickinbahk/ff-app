@@ -106,7 +106,7 @@ app.get('/shopify/callback', (req, res) => {
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
         // If the current window is the 'parent', change the URL by setting location.href
-        console.log(shopResponse)   
+        res.end(shopResponse); 
       })  
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
