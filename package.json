@@ -29,6 +29,7 @@
     "pg": "^7.9.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
+    "sequelize": "^5.5.0",
     "shopify-api-node": "^2.18.2"
   },
   "devDependencies": {}
