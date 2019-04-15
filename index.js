@@ -1,11 +1,10 @@
-import path from 'path'
-import express from 'express'
-import createApp from '@shopify/app-bridge';
-import {Redirect} from '@shopify/app-bridge/actions';
-import {Toast} from '@shopify/app-bridge/actions';
-import Shopify from 'shopify-api-node'
-import {Pool} from 'pg'
-
+const path = require('path');
+const express = require('express');
+const createApp = require('@shopify/app-bridge');
+const {Redirect} = require('@shopify/app-bridge/actions');
+const {Toast} = require('@shopify/app-bridge/actions');
+const Shopify = require('shopify-api-node');
+const {Pool} = require('pg')
 const helmet = require('helmet')
 const app = express(), DIST_DIR = __dirname, HTML_FILE = path.join(DIST_DIR, 'index.html');
 const dotenv = require('dotenv').config();
@@ -30,7 +29,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
-    res.sendFile(HTML_FILE)
+    res.render('pages/index')
 })
 
 const PORT = process.env.PORT || 3000;
