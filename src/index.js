@@ -4,6 +4,7 @@ import createApp from '@shopify/app-bridge';
 import {Redirect} from '@shopify/app-bridge/actions';
 import {Toast} from '@shopify/app-bridge/actions';
 import Shopify from 'shopify-api-node'
+import {Pool} from 'pg'
 
 const helmet = require('helmet')
 const app = express(), DIST_DIR = __dirname, HTML_FILE = path.join(DIST_DIR, 'index.html');
@@ -13,6 +14,10 @@ const cookie = require('cookie');
 const nonce = require('nonce')();
 const querystring = require('querystring');
 const request = require('request-promise');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+});
 
 const apiKey = process.env.SHOPIFY_API_KEY;
 const apiSecret = process.env.SHOPIFY_API_SECRET;
@@ -137,4 +142,18 @@ app.get('/shopify/callback', (req, res) => {
   } else {
     res.status(400).send('Required parameters missing');
   }
+
+  app.get('/db', async (req, res) => {
+    try {
+      const client = await pool.connect()
+      const result = await client.query('SELECT * FROM test_table');
+      const results = { 'results': (result) ? result.rows : null};
+      res.render('pages/db', results );
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })  
+
 });
