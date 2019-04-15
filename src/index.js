@@ -26,6 +26,8 @@ const forwardingAddress = "https://fundflakes-app.herokuapp.com"; // Replace thi
 const permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,read_content&redirect_uri=${forwardingAddress}`;
 
 app.use(express.static(DIST_DIR));
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
     res.sendFile(HTML_FILE)
@@ -147,8 +149,8 @@ app.get('/shopify/callback', (req, res) => {
     try {
       const client = await pool.connect()
       const result = await client.query('SELECT * FROM test_table');
-      const results = { 'results': (result) ? result.rows : null};
-      res.render('pages/db', results );
+      const results = { 'results': (result) ? result.rows : null };
+      res.render('pages/db', results);
       client.release();
     } catch (err) {
       console.error(err);
