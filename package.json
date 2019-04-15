@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "start": "node ./index.js",
-    "build": "node ./index.js",
     "test": "test"
   },
   "repository": {
