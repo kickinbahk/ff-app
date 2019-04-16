@@ -33,14 +33,15 @@ module.exports = function (sequelize, DataTypes) {
           if (typeof value !== 'string') {
             throw new Error('ZIP must be a string')
           }
-        }      
-    },
+        } 
+      }     
+    },    
     totalRaised: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       isNumber: function(value) {
         if (typeof value !== 'number') {
-          throw new Error('Total Raised must be a string')
+          throw new Error('Total Raised must be a number')
         }
       }
     },
@@ -55,6 +56,6 @@ module.exports = function (sequelize, DataTypes) {
           }
         }
       }
-    }
+    }    
   })
 }

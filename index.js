@@ -13,6 +13,9 @@ const cookie = require('cookie');
 const nonce = require('nonce')();
 const querystring = require('querystring');
 const request = require('request-promise');
+const db = require('./db.js');
+const bodyParser = require('body-parser')
+var _ = require('underscore')
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: true
@@ -25,8 +28,9 @@ const forwardingAddress = "https://fundflakes-app.herokuapp.com"; // Replace thi
 const permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,read_content&redirect_uri=${forwardingAddress}`;
 
 app.use(express.static(DIST_DIR));
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
+app.use(bodyParser.json());
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
     res.render('pages/index')
@@ -34,10 +38,10 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`App listening to ${PORT}....`);
-    console.log('Press Ctrl+C to quit.');
-})
+// app.listen(PORT, () => {
+//     console.log(`App listening to ${PORT}....`);
+//     console.log('Press Ctrl+C to quit.');
+// })
 
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
@@ -157,3 +161,23 @@ app.get('/db', async (req, res) => {
     res.send("Error " + err);
   }
 });   
+
+app.post('/group', async (req, res) => {
+  var body = _.pick(req.body, 'groupID', 'groupName', 'zip', 'totalRaised', 'approved');
+  console.log(body)
+  db.group.create(body).then(function (group) {
+    req.group.addGroup(group).then(function () {
+      return group.reload()
+    }).then(function (group) {
+      res.json(group.toJSON())
+    })
+  }, function (e) {
+    res.status(400).json(e)
+  })
+});
+
+db.sequelize.sync({force: true}).then(function () {
+  app.listen(PORT, function () {
+    console.log(`Express listening on port ${PORT}...`)
+  })
+});
