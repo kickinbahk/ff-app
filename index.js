@@ -38,10 +38,10 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-// app.listen(PORT, () => {
-//     console.log(`App listening to ${PORT}....`);
-//     console.log('Press Ctrl+C to quit.');
-// })
+app.listen(PORT, () => {
+    console.log(`App listening to ${PORT}....`);
+    console.log('Press Ctrl+C to quit.');
+})
 
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
@@ -176,8 +176,8 @@ app.post('/group', async (req, res) => {
   })
 });
 
-db.sequelize.sync({force: true}).then(function () {
-  app.listen(PORT, function () {
-    console.log(`Express listening on port ${PORT}...`)
-  })
-});
+// db.sequelize.sync({force: true}).then(function () {
+//   app.listen(PORT, function () {
+//     console.log(`Express listening on port ${PORT}...`)
+//   })
+// });
