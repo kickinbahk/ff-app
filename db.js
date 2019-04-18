@@ -4,7 +4,6 @@ var env = process.env.NODE_ENV || 'development';
 var sequelize;
 
 if (env === 'production') {
-  const client = pool.connect()
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres'
   })
