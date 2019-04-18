@@ -1,17 +1,11 @@
   
-var Sequelize = require('sequelize')
-var env = process.env.NODE_ENV || 'development'
-const {Pool} = require('pg')
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
-});
-var sequelize
+var Sequelize = require('sequelize');
+var env = process.env.NODE_ENV || 'development';
+var sequelize;
 
 if (env === 'production') {
   const client = pool.connect()
-  sequelize = new Sequelize(client.connectionString, {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres'
   })
 } else {
