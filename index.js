@@ -135,6 +135,7 @@ app.get('/shopify/callback', (req, res) => {
   
   
           Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
+          res.render('pages/index')
         }          
       })  
       .catch((error) => {
