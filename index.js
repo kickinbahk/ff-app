@@ -162,7 +162,7 @@ app.get('/db', async (req, res) => {
   }
 });   
 
-app.post('/group', async (req, res) => {
+app.post('/groups', async (req, res) => {
   var body = _.pick(req.body, 'groupID', 'groupName', 'zip', 'totalRaised', 'approved');
   console.log(body)
   db.group.create(body).then(function (group) {
@@ -173,6 +173,24 @@ app.post('/group', async (req, res) => {
     res.status(400).json(e)
   })
 });
+
+app.get('/groups/:groupID', function (req, res) {
+  var groupID = req.params.groupID
+  console.log(groupID)
+  db.group.findOne({
+    where: {
+      groupID: groupID
+    }
+  }).then(function (group) {
+    if (group) {
+      res.json(group.toJSON())
+    } else {
+      res.status(404).send()
+    }
+  }, function (e) {
+    res.status(500).send()
+  })
+})
 
 
 // db.sequelize.sync({force: true}).then(function () {
