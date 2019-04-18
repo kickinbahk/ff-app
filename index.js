@@ -37,11 +37,11 @@ app.get('/', (req, res) => {
 })
 
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`App listening to ${PORT}....`);
-  console.log('Press Ctrl+C to quit.');
-})
+db.sequelize.sync().then(function () {
+  app.listen(PORT, function () {
+    console.log(`Express listening on port ${PORT}...`)
+  })
+});
 
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
