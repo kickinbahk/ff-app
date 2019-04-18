@@ -174,6 +174,16 @@ app.post('/groups', async (req, res) => {
   })
 });
 
+app.get('/groups', async (req, res) => {
+
+  db.group.findAll().then(function (groups) {
+    res.json(groups)
+  }, function (e) {
+    res.status(500).send()
+  })
+
+});
+
 app.get('/groups/:groupID', function (req, res) {
   var groupID = req.params.groupID
   console.log(groupID)
