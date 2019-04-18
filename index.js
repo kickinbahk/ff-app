@@ -15,7 +15,7 @@ const querystring = require('querystring');
 const request = require('request-promise');
 const db = require('./db.js');
 const bodyParser = require('body-parser')
-var _ = require('underscore')
+const _ = require('underscore')
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: true
@@ -39,8 +39,8 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`App listening to ${PORT}....`);
-    console.log('Press Ctrl+C to quit.');
+  console.log(`App listening to ${PORT}....`);
+  console.log('Press Ctrl+C to quit.');
 })
 
 app.get('/shopify', (req, res) => {
@@ -166,9 +166,7 @@ app.post('/group', async (req, res) => {
   var body = _.pick(req.body, 'groupID', 'groupName', 'zip', 'totalRaised', 'approved');
   console.log(body)
   db.group.create(body).then(function (group) {
-    req.group.addGroup(group).then(function () {
-      return group.reload()
-    }).then(function (group) {
+    return group.reload().then(function (group) {
       res.json(group.toJSON())
     })
   }, function (e) {
@@ -176,8 +174,9 @@ app.post('/group', async (req, res) => {
   })
 });
 
+
 // db.sequelize.sync({force: true}).then(function () {
 //   app.listen(PORT, function () {
-//     console.log(`Express listening on port ${PORT}...`)
+//     console.log(`DB reset...Express listening on port ${PORT}...`)
 //   })
 // });
