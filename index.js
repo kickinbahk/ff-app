@@ -43,6 +43,13 @@ db.sequelize.sync().then(function () {
   })
 });
 
+// db.sequelize.sync({force: true}).then(function () {
+//   app.listen(PORT, function () {
+//     console.log(`DB reset...Express listening on port ${PORT}...`)
+//   })
+// });
+
+
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
   if (shop) {
@@ -185,9 +192,9 @@ app.get('/groups', async (req, res) => {
 
 });
 
-app.get('/groups/:groupID', function (req, res) {
+app.get('/groups/:groupID', async (req, res) => {
   var groupID = req.params.groupID
-  console.log(groupID)
+
   db.group.findOne({
     where: {
       groupID: groupID
@@ -203,9 +210,34 @@ app.get('/groups/:groupID', function (req, res) {
   })
 })
 
+app.post('/groups/:groupID', async (req, res) => {
+  var body = _.pick(req.body, 'groupID', 'totalRaised');
+  var groupID = req.params.groupID
 
-// db.sequelize.sync({force: true}).then(function () {
-//   app.listen(PORT, function () {
-//     console.log(`DB reset...Express listening on port ${PORT}...`)
-//   })
-// });
+  console.log(body.totalRaised);
+  
+  db.group.update({ totalRaised: body.totalRaised }, {
+    where: {
+      groupID: groupID
+    }
+  }).then(function() {
+    db.group.findOne({
+      where: {
+        groupID: groupID
+      }
+    }).then(function(group) {
+      console.log(group)
+      if (group) {
+        res.json(group.toJSON())
+      } else {
+        res.status(404).send()
+      }
+    }, function (e) {
+      res.status(500).send()
+    })
+  }, function (e) {
+    res.status(500).send()
+  })
+})
+
+
