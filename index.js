@@ -70,7 +70,7 @@ app.get('/shopify', (req, res) => {
 
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
-  console.log(accessTokenPayload + " + " + req.query)
+  console.log(req.query)
   const stateCookie = cookie.parse(req.headers.cookie).state;
   app.use(helmet.frameguard({ 
     action: 'allow-from',
