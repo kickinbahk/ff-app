@@ -112,7 +112,8 @@ app.get('/shopify/callback', (req, res) => {
       client_secret: apiSecret,
       code,
     };
-    
+    console.log(accessTokenPayload + " + " + req.query)
+
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
     .then((accessTokenResponse) => {
       const accessToken = accessTokenResponse.access_token;
@@ -121,7 +122,7 @@ app.get('/shopify/callback', (req, res) => {
       const shopRequestHeaders = {
         'X-Shopify-Access-Token': accessToken,
       };      
-      
+
       console.log(shopRequestHeaders["X-Shopify-Access-Token"])
       
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
