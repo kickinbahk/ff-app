@@ -70,6 +70,7 @@ app.get('/shopify', (req, res) => {
 
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
+  console.log(accessTokenPayload + " + " + req.query)
   const stateCookie = cookie.parse(req.headers.cookie).state;
   app.use(helmet.frameguard({ 
     action: 'allow-from',
@@ -112,7 +113,7 @@ app.get('/shopify/callback', (req, res) => {
       client_secret: apiSecret,
       code,
     };
-    console.log(accessTokenPayload + " + " + req.query)
+
 
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
     .then((accessTokenResponse) => {
