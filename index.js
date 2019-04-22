@@ -70,12 +70,12 @@ app.get('/shopify', (req, res) => {
 
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
-  console.log(req.query)
   const stateCookie = cookie.parse(req.headers.cookie).state;
   app.use(helmet.frameguard({ 
     action: 'allow-from',
-    domain: shop
+    domain: req.query.shop
   }))
+  console.log(req.query)
 
   if (state !== stateCookie) {
     return res.status(403).send('Request origin cannot be verified');
