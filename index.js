@@ -73,7 +73,7 @@ app.get('/shopify/callback', (req, res) => {
   const stateCookie = cookie.parse(req.headers.cookie).state;
   console.log(req.query)
   app.use(helmet.frameguard({ 
-    action: 'ALLOWALL'
+    action: undefined
   }))
 
 
