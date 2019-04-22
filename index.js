@@ -121,11 +121,12 @@ app.get('/shopify/callback', (req, res) => {
       const shopRequestHeaders = {
         'X-Shopify-Access-Token': accessToken,
       };      
-
+      
+      console.log(shopRequestHeaders["X-Shopify-Access-Token"])
       
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then(() => {
-        console.log(shopRequestHeaders["X-Shopify-Access-Token"])
+
         console.log("before if")
         if (window.top == window.self) {
           window.location.assign(`https://${shop}/admin${permissionUrl}`);
