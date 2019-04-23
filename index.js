@@ -117,15 +117,15 @@ app.get('/shopify/callback', (req, res) => {
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
     .then((accessTokenResponse) => {
       const accessToken = accessTokenResponse.access_token;
+      // DONE: Use access token to make API call to 'shop' endpoint
       const shopRequestUrl = 'https://' + shop + '/admin/shop.json';
       const shopRequestHeaders = {
         'X-Shopify-Access-Token': accessToken,
       };
-      res.sendFile('index')
-      
+
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
-
+        res.status(200).end(shopResponse);
       })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
@@ -134,7 +134,6 @@ app.get('/shopify/callback', (req, res) => {
     .catch((error) => {
       res.status(error.statusCode).send(error.error.error_description);
     });
-
   } else {
     res.status(400).send('Required parameters missing');
   }
