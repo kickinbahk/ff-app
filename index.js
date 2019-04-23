@@ -121,10 +121,11 @@ app.get('/shopify/callback', (req, res) => {
       const shopRequestHeaders = {
         'X-Shopify-Access-Token': accessToken,
       };
-
+      res.sendFile('index')
+      
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
-        res.sendFile('index')
+
       })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
