@@ -114,47 +114,26 @@ app.get('/shopify/callback', (req, res) => {
       code,
     };
 
-
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
     .then((accessTokenResponse) => {
       const accessToken = accessTokenResponse.access_token;
-    
       const shopRequestUrl = 'https://' + shop + '/admin/shop.json';
       const shopRequestHeaders = {
         'X-Shopify-Access-Token': accessToken,
-      };      
+      };
 
-      console.log(shopRequestHeaders["X-Shopify-Access-Token"])
-      
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
-      .then(() => {
-
-        console.log("before if")
-        if (window.top == window.self) {
-          window.location.assign(`https://${shop}/admin${permissionUrl}`);
-  
-          console.log('in if')
-  
-        // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
-        } else {
-          const app = createApp({
-            apiKey: apiKey,
-            shopOrigin: shop,
-          });
-          console.log(' before redirect')
-  
-  
-          Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
-          res.render('pages/index')
-        }          
-      })  
+      .then((shopResponse) => {
+        res.status(200).end(shopResponse);
+      })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
       });
     })
     .catch((error) => {
       res.status(error.statusCode).send(error.error.error_description);
-    }); 
+    });
+
   } else {
     res.status(400).send('Required parameters missing');
   }
