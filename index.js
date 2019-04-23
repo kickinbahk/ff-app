@@ -124,8 +124,7 @@ app.get('/shopify/callback', (req, res) => {
 
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
-        res.status(200)
-        res.render('./views/pages/index')
+        res.sendFile('./views/pages/index')
       })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
