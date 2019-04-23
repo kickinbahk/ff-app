@@ -131,7 +131,7 @@ app.get('/shopify/callback', (req, res) => {
         'X-Shopify-Access-Token': accessToken,
       };
 
-      request.post(shopRequestUrl, { headers: shopRequestHeaders })
+      request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
         res.status(200).end(shopResponse);
       })
