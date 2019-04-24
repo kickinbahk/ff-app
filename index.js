@@ -76,6 +76,10 @@ app.get('/shopify', (req, res) => {
   }
 });
 
+app.get('/shopify', function (req, res, next) {
+  res.sendfile('index.html');
+}); 
+
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
   console.log(req.headers)
@@ -134,9 +138,6 @@ app.get('/shopify/callback', (req, res) => {
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
         res.status(200).end(shopResponse);
-      })
-      .then(() => {
-        res.render('./views/pages/index.html')
       })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
