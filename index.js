@@ -135,6 +135,9 @@ app.get('/shopify/callback', (req, res) => {
       .then((shopResponse) => {
         res.status(200).end(shopResponse);
       })
+      .then(() => {
+        res.render('./views/pages/index.html')
+      })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
       });
