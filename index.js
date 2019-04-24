@@ -138,18 +138,12 @@ app.get('/shopify/callback', (req, res) => {
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
       });
+
     })
     .catch((error) => {
       res.status(error.statusCode).send(error.error.error_description);
     });
 
-    request.post(accessTokenRequestUrl, { json: accessTokenPayload })
-    .then((accessTokenResponse) => {
-      res.render('views/pages/index.html');
-    })
-    .catch((error) => {
-      res.status(error.statusCode).send(error.error.error_description);
-    });
   } else {
     res.status(400).send('Required parameters missing');
   }
