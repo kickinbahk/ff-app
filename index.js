@@ -133,9 +133,9 @@ app.get('/shopify/callback', (req, res) => {
       };
 
       request.get('/')
-      .then(() => {
+      .then((req, res) => {
         res.send(200)
-        app.sendFile('index.html');
+        res.sendFile('index.html');
       })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
