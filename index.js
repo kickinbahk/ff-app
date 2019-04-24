@@ -134,9 +134,7 @@ app.get('/shopify/callback', (req, res) => {
 
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
-        request.get('/shopify', { headers: shopRequestHeaders }, function (req, res, next) {
-          res.sendfile('index.html');
-        }); 
+        app.sendFile('index.html');
       })
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
