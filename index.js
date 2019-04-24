@@ -40,14 +40,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(allowCrossDomain);
 
-app.get('/', withShop({authBaseUrl: '/shopify'}), function(request, response) {
-  const { session: { shop, accessToken } } = request;
-  response.render('app', {
-    title: 'Shopify Node App',
-    apiKey: shopifyConfig.apiKey,
-    shop: shop,
-  });
-});
+app.get('/', (req, res) => {
+  res.render('pages/index')
+})
 
 const PORT = process.env.PORT || 3000;
 db.sequelize.sync().then(function () {
@@ -143,6 +138,14 @@ app.get('/shopify/callback', (req, res) => {
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
       });
+    })
+    .catch((error) => {
+      res.status(error.statusCode).send(error.error.error_description);
+    });
+
+    request.post(accessTokenRequestUrl, { json: accessTokenPayload })
+    .then((accessTokenResponse) => {
+      res.render('views/pages/index.html');
     })
     .catch((error) => {
       res.status(error.statusCode).send(error.error.error_description);
