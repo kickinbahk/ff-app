@@ -134,7 +134,7 @@ app.get('/shopify/callback', (req, res) => {
 
       request.get(shopRequestUrl, { headers: shopRequestHeaders })
       .then((shopResponse) => {
-        app.get('/shopify', { headers: shopRequestHeaders }, function (req, res, next) {
+        request.get('/shopify', { headers: shopRequestHeaders }, function (req, res, next) {
           res.sendfile('index.html');
         }); 
       })
