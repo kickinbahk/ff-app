@@ -40,9 +40,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(allowCrossDomain);
 
-app.get('/', (req, res) => {
-    res.render('pages/index')
-})
+app.get('/', withShop({authBaseUrl: '/shopify'}), function(request, response) {
+  const { session: { shop, accessToken } } = request;
+  response.render('app', {
+    title: 'Shopify Node App',
+    apiKey: shopifyConfig.apiKey,
+    shop: shop,
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 db.sequelize.sync().then(function () {
