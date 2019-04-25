@@ -31,6 +31,10 @@ app.use(express.static(DIST_DIR));
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(helmet.frameguard({
+  action: 'allow-from',
+  domain: '*'
+}))
 
 app.get('/', (req, res) => {
   res.render('pages/index')
@@ -53,11 +57,8 @@ db.sequelize.sync().then(function () {
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
   console.log(shop);
-  app.use(helmet.frameguard({
-    action: 'allow-from',
-    domain: 'https://' + shop
-  }))
-  
+
+
   if (shop) {
     const state = nonce();
     const redirectUri = forwardingAddress + '/shopify/callback';
