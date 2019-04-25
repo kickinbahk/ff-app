@@ -26,19 +26,11 @@ const apiSecret = process.env.SHOPIFY_API_SECRET;
 const scopes = 'read_products, read_themes, write_themes';
 const forwardingAddress = "https://fundflakes-app.herokuapp.com"; // Replace this with your HTTPS Forwarding address
 const permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,read_content&redirect_uri=${forwardingAddress}`;
-var allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, Authorization');
-  if (req.method === "OPTIONS") res.send(200);
-  else next();
-}
 
 app.use(express.static(DIST_DIR));
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(allowCrossDomain);
 
 app.get('/', (req, res) => {
   res.render('pages/index')
@@ -122,6 +114,8 @@ app.get('/shopify/callback', (req, res) => {
       client_secret: apiSecret,
       code,
     };
+
+    res.header('X-FRAME-OPTIONS', 'ALLOW-FROM ' + shop);
 
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
     .then((accessTokenResponse) => {
