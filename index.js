@@ -55,7 +55,7 @@ app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
   app.use(helmet.frameguard({
     action: 'allow-from',
-    domain: 'https://' + shop
+    domain: 'https://*.myshopify.com'
   }))
   console.log(shop);
   if (shop) {
