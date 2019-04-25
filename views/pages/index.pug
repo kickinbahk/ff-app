@@ -1,6 +1,7 @@
 html
   head
     title= title
+    script(src='https://unpkg.com/@shopify/app-bridge')
     script.
         var AppBridge = window['app-bridge'];
         var createApp = AppBridge.createApp;
@@ -14,14 +15,14 @@ html
 
         // If the current window is the 'parent', change the URL by setting location.href
         if (window.top == window.self)
-        window.location.assign('https://' + shopOrigin + '/admin' + permissionUrl);
+          window.location.assign('https://' + shopOrigin + '/admin' + permissionUrl);
 
         // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
         else 
-        var app = createApp({
-            apiKey: apiKey,
-            shopOrigin: shopOrigin,
-        });
+          var app = createApp({
+              apiKey: apiKey,
+              shopOrigin: shopOrigin,
+          });
 
         Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
   body
