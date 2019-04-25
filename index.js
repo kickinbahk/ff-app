@@ -71,7 +71,7 @@ app.get('/shopify', (req, res) => {
     console.log('before redirect')
     res.redirect(installUrl);
     console.log('after redirect')
-    res.render('index.html')
+    res.sendFile('index.html')
   } else {
     return res.status(400).send('Missing shop parameter. Please add ?shop=your-development-shop.myshopify.com to your request');
   }
