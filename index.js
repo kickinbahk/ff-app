@@ -131,15 +131,9 @@ app.get('/shopify/callback', (req, res) => {
       const shopRequestHeaders = {
         'X-Shopify-Access-Token': accessToken,
       };
-
-      request.get('/')
-      .then((req, res) => {
-        res.send(200)
-        res.sendFile('index.html');
+      app.get('/', (req, res) => {
+        res.render('index.html')
       })
-      .catch((error) => {
-        res.status(error.statusCode).send(error.error.error_description);
-      });
 
     })
     .catch((error) => {
