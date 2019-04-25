@@ -53,6 +53,11 @@ db.sequelize.sync().then(function () {
 
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
+  app.use(helmet.frameguard({
+    action: 'allow-from',
+    domain: 'https://' + shop
+  }))
+  console.log(shop);
   if (shop) {
     const state = nonce();
     const redirectUri = forwardingAddress + '/shopify/callback';
@@ -63,7 +68,9 @@ app.get('/shopify', (req, res) => {
       '&redirect_uri=' + redirectUri;
 
     res.cookie('state', state);
+    console.log('before redirect')
     res.redirect(installUrl);
+    console.log('after redirect')
   } else {
     return res.status(400).send('Missing shop parameter. Please add ?shop=your-development-shop.myshopify.com to your request');
   }
@@ -74,10 +81,7 @@ app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
   console.log(req.headers)
   var stateCookie = '';
-  app.use(helmet.frameguard({
-    action: 'allow-from',
-    domain: 'https://' + shop
-  }))
+
 
   res.render('index.html')
 });
