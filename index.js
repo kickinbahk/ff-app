@@ -33,7 +33,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug')
 app.use(helmet.frameguard({
   action: 'allow-from',
-  domain: 'https://*/myshopify.com'
+  domain: '*'
 }))
 
 app.get('/', (req, res) => {

@@ -1,7 +1,23 @@
 html
   head
     title= title
-    script(src='https://unpkg.com/@shopify/app-bridge')
+    script(src='https://cdn.shopify.com/s/assets/external/app.js')
+    script.
+      var apiKey = '#{API_KEY}';
+      var redirectUri = '#{redirectURI}';
+      var shopOrigin = "#{shop}";
+      var permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,read_content&redirect_uri=${redirectUri}`;
+
+      ShopifyApp.init({apiKey: apiKey, shopOrigin: `https://${shopOrigin}`});
+
+      // If the current window is the 'parent', change the URL by setting location.href
+      if (window.top == window.self) {
+        window.location.assign(`https://${shopOrigin}/admin/${permissionUrl}`);
+
+      // If the current window is the 'child', change the parent's URL with ShopifyApp.redirect
+      } else {
+        ShopifyApp.redirect(permissionUrl);
+      }
   body
     h1= title
     p=message
