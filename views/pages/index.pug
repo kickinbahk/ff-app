@@ -13,9 +13,9 @@ html
       var createApp = AppBridge.createApp;
       var actions = AppBridge.actions;
       var Redirect = actions.Redirect;
-      var shopOrigin = #{shop};
-      var apiKey = #{API_KEY};
-      var redirectUri = #{redirectURI};
+      var shopOrigin = '#{shop}';
+      var apiKey = '#{API_KEY}';
+      var redirectUri = '#{redirectURI}';
 
       var permissionUrl = '/oauth/authorize?client_id=' + apiKey + '&scope=read_products,read_content&redirect_uri=' + redirectUri;
 
