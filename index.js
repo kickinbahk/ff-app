@@ -87,7 +87,7 @@ app.get('/shopify/callback', (req, res) => {
 
   res.render('pages/index', { 
     API_KEY: apiKey,
-    redirectURI: forwardingAddress,
+    redirectURI: forwardingAddress + '/shopify/callback',
     shop: shop,
     title: 'FundFlakes App', 
     message: 'Hello there from pug!' 
