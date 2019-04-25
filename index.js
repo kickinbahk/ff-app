@@ -85,7 +85,13 @@ app.get('/shopify/callback', (req, res) => {
   var stateCookie = '';
 
 
-  res.render('pages/index', { title: 'FundFlakes App', message: 'Hello there from pug!' })
+  res.render('pages/index', { 
+    API_KEY: apiKey,
+    redirectURI: forwardingAddress,
+    shop: shop,
+    title: 'FundFlakes App', 
+    message: 'Hello there from pug!' 
+  })
 });
 
 app.get('/db', async (req, res) => {
