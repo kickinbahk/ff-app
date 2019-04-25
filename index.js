@@ -53,10 +53,6 @@ db.sequelize.sync().then(function () {
 
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
-  app.use(helmet.frameguard({
-    action: 'allow-from',
-    domain: 'https://*.myshopify.com'
-  }))
   console.log(shop);
   if (shop) {
     const state = nonce();
@@ -84,7 +80,7 @@ app.get('/shopify/callback', (req, res) => {
   var stateCookie = '';
 
 
-  res.render('index.html')
+  res.render('pages/index')
 });
 
 app.get('/db', async (req, res) => {
