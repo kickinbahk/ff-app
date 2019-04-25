@@ -33,7 +33,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(helmet.frameguard({
   action: 'allow-from',
-  domain: '*'
+  domain: 'https://*/myshopify.com'
 }))
 
 app.get('/', (req, res) => {
@@ -69,7 +69,6 @@ app.get('/shopify', (req, res) => {
       '&redirect_uri=' + redirectUri;
 
     res.cookie('state', state);
-    res.render('pages/index')
     console.log('before redirect')
     res.redirect(installUrl);
     console.log('after redirect')
