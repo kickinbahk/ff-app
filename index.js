@@ -73,8 +73,9 @@ app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
   console.log(req.headers)
   var stateCookie = '';
+  res.header('X-FRAME-OPTIONS', 'ALLOW-FROM ' + shop);
   res.render('index.html')
-  
+
   if (req.headers.cookie) {
     stateCookie = cookie.parse(req.headers.cookie).state; 
   }
@@ -116,7 +117,7 @@ app.get('/shopify/callback', (req, res) => {
       code,
     };
 
-    res.header('X-FRAME-OPTIONS', 'ALLOW-FROM ' + shop);
+
 
     request.post(accessTokenRequestUrl, { json: accessTokenPayload })
     .then((accessTokenResponse) => {
