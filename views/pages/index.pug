@@ -10,24 +10,28 @@ html
 
     script.
       var AppBridge = window['app-bridge'];
-      var createApp = AppBridge.createApp;
       var actions = AppBridge.actions;
-      var Redirect = actions.Redirect;
+      var TitleBar = actions.TitleBar;
+      var Button = actions.Button;
+      var Redirect = actions.Redirect;    
+      var createApp = AppBridge.createApp;
       var shopOrigin = '#{shop}';
       var apiKey = '#{API_KEY}';
       var redirectUri = '#{redirectURI}';
 
-      var permissionUrl = '/oauth/authorize?client_id=' + apiKey + '&scope=read_products,read_content&redirect_uri=' + redirectUri;
+      var app = createApp({
+          apiKey: apiKey,
+          shopOrigin: shopOrigin,
+      });
 
-      // If the current window is the 'parent', change the URL by setting location.href
-      if (window.top == window.self)
-        window.location.assign('https://' + shopOrigin + '/admin' + permissionUrl);
+      var breadcrumb = Button.create(app, {label: 'My breadcrumb'});
+      breadcrumb.subscribe(Button.Action.CLICK, function() {
+        app.dispatch(Redirect.toApp({path: '/breadcrumb-link'}));
+      });
 
-      // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
-      else 
-        var app = createApp({
-            apiKey: apiKey,
-            shopOrigin: shopOrigin,
-        });
+      var titleBarOptions = {
+        title: '#{title}',
+        breadcrumbs: breadcrumb,
+      };
 
-      Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
+      var myTitleBar = TitleBar.create(app, titleBarOptions);
