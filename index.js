@@ -73,7 +73,8 @@ app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
   console.log(req.headers)
   var stateCookie = '';
-
+  res.render('index.html')
+  
   if (req.headers.cookie) {
     stateCookie = cookie.parse(req.headers.cookie).state; 
   }
