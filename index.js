@@ -30,7 +30,7 @@ const permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,
 app.use(express.static(DIST_DIR));
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug')
 app.use(helmet.frameguard({
   action: 'allow-from',
   domain: 'https://*/myshopify.com'
@@ -85,7 +85,7 @@ app.get('/shopify/callback', (req, res) => {
   var stateCookie = '';
 
 
-  res.render('pages/index')
+  res.render('pages/index', { title: 'FundFlakes App', message: 'Hello there from pug!' })
 });
 
 app.get('/db', async (req, res) => {
