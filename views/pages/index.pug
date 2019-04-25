@@ -9,6 +9,20 @@ html
       var permissionUrl = '/oauth/authorize?client_id=#{API_KEY}&scope=read_products,read_content&redirect_uri=#{redirectURI}';
 
       ShopifyApp.init({apiKey: apiKey, shopOrigin: 'https://' + shopOrigin });
+      var breadcrumb = {
+        label: 'My breadcrumb',
+        href: '/breadcrumb-link',
+        target: 'app',
+      }
+
+      var titleBarOptions = {
+        title: 'My page title',
+        breadcrumb: breadcrumb,
+      }
+
+      ShopifyApp.ready(function() {
+        ShopifyApp.Bar.initialize(titleBarOptions);
+      });
 
   body
     h1= title
