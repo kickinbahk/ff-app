@@ -16,6 +16,7 @@ const request = require('request-promise');
 const db = require('./db.js');
 const bodyParser = require('body-parser')
 const _ = require('underscore')
+const frameguard = require('frameguard')
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: true
@@ -73,12 +74,11 @@ app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
   console.log(req.headers)
   var stateCookie = '';
-  app.use(frameguard({
+  app.use(helmet.frameguard({
     action: 'allow-from',
     domain: 'https://' + shop
   }))
-})
-.then((res) => {
+
   res.render('index.html')
 });
 
