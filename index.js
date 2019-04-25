@@ -16,7 +16,6 @@ const request = require('request-promise');
 const db = require('./db.js');
 const bodyParser = require('body-parser')
 const _ = require('underscore')
-const frameguard = require('frameguard')
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: true
@@ -54,6 +53,11 @@ db.sequelize.sync().then(function () {
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
   console.log(shop);
+  app.use(helmet.frameguard({
+    action: 'allow-from',
+    domain: 'https://' + shop
+  }))
+  
   if (shop) {
     const state = nonce();
     const redirectUri = forwardingAddress + '/shopify/callback';
