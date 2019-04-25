@@ -77,8 +77,9 @@ app.get('/shopify/callback', (req, res) => {
     action: 'allow-from',
     domain: 'https://' + shop
   }))
+})
+.then((res) => {
   res.render('index.html')
-
 });
 
 app.get('/db', async (req, res) => {
