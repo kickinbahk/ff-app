@@ -104,12 +104,27 @@ app.get('/db', async (req, res) => {
 app.post('/groups', async (req, res) => {
   var body = _.pick(req.body, 'groupID', 'groupName', 'zip', 'totalRaised', 'approved');
   console.log(body)
-  db.group.create(body).then(function (group) {
-    return group.reload().then(function (group) {
-      res.json(group.toJSON())
-    })
-  }, function (e) {
-    res.status(400).json(e)
+  var groupID = body.groupID;
+
+  db.group.findOne({
+    where: {
+      groupID: groupID
+    }
+  }).then(function (group) {
+    console.log(group);
+
+    if (!group) {
+      db.group.create(body).then(function (group) {
+        return group.reload().then(function (group) {
+          res.json(group.toJSON())
+        })
+      }, function (e) {
+        res.status(400).json(e)
+      })
+    } else {
+      res.status(506).send({ error: 'Group ID already exists' });
+    }
+
   })
 });
 
