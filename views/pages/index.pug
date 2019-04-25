@@ -6,13 +6,13 @@ html
       var apiKey = '#{API_KEY}';
       var redirectUri = '#{redirectURI}';
       var shopOrigin = "#{shop}";
-      var permissionUrl = `/oauth/authorize?client_id=#{API_KEY}&scope=read_products,read_content&redirect_uri=#{redirectURI}`;
+      var permissionUrl = '/oauth/authorize?client_id=#{API_KEY}&scope=read_products,read_content&redirect_uri=#{redirectURI}';
 
-      ShopifyApp.init({apiKey: apiKey, shopOrigin: `https://${shopOrigin}`});
+      ShopifyApp.init({apiKey: apiKey, shopOrigin: 'https://' + shopOrigin });
 
       // If the current window is the 'parent', change the URL by setting location.href
       if (window.top == window.self) {
-        window.location.assign(`https://${shopOrigin}/admin/${permissionUrl}`);
+        window.location.assign('https://' + shopOrigin + '/admin/' + permissionUrl);
 
       // If the current window is the 'child', change the parent's URL with ShopifyApp.redirect
       } else {
