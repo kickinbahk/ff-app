@@ -8,30 +8,3 @@ html
     p=API_KEY
     p=shop
 
-    script.
-      var AppBridge = window['app-bridge'];
-      var actions = AppBridge.actions;
-      var TitleBar = actions.TitleBar;
-      var Button = actions.Button;
-      var Redirect = actions.Redirect;    
-      var createApp = AppBridge.createApp;
-      var shopOrigin = '#{shop}';
-      var apiKey = '#{API_KEY}';
-      var redirectUri = '#{redirectURI}';
-
-      var app = createApp({
-          apiKey: apiKey,
-          shopOrigin: shopOrigin,
-      });
-
-      var breadcrumb = Button.create(app, {label: 'My breadcrumb'});
-      breadcrumb.subscribe(Button.Action.CLICK, function() {
-        app.dispatch(Redirect.toApp({path: '/breadcrumb-link'}));
-      });
-
-      var titleBarOptions = {
-        title: '#{title}',
-        breadcrumbs: breadcrumb,
-      };
-
-      var myTitleBar = TitleBar.create(app, titleBarOptions);
