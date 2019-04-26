@@ -3,19 +3,19 @@ html
     title= title
     script(src='https://cdn.shopify.com/s/assets/external/app.js')
     script.
-      - var apiKey = '#{API_KEY}';
-      - var redirectUri = '#{redirectURI}';
-      - var shopOrigin = "#{shop}";
-      - var permissionUrl = '/oauth/authorize?client_id=#{API_KEY}&scope=read_products,read_content&redirect_uri=#{redirectURI}';
+      var apiKey = '#{API_KEY}';
+      var redirectUri = '#{redirectURI}';
+      var shopOrigin = "#{shop}";
+      var permissionUrl = '/oauth/authorize?client_id=#{API_KEY}&scope=read_products,read_content&redirect_uri=#{redirectURI}';
 
-      - ShopifyApp.init({apiKey: '#{apiKey}', shopOrigin: 'https://#{shopOrigin}' });
-      - var breadcrumb = { label: 'My breadcrumb', href: '/breadcrumb-link', target: 'app' }
+      ShopifyApp.init({apiKey: '#{API_KEY}', shopOrigin: 'https://#{shop}' });
+      var breadcrumb = { label: 'My breadcrumb', href: '/breadcrumb-link', target: 'app' }
 
-      - var titleBarOptions = { title: 'My page title', breadcrumb: breadcrumb }
-      -
-        ShopifyApp.ready(function() {
-          ShopifyApp.Bar.initialize(titleBarOptions);
-        });
+      var titleBarOptions = { title: 'My page title', breadcrumb: breadcrumb }
+
+      ShopifyApp.ready(function() {
+        ShopifyApp.Bar.initialize(titleBarOptions);
+      });
 
   body
     h1= title
