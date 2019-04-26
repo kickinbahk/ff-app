@@ -89,15 +89,16 @@ app.get('/shopify/callback', (req, res) => {
     groupsObj = groups;
   }, function (e) {
     res.status(500).send()
-  })
+  }).then(function() {
 
 
-  res.render('pages/index', { 
-    API_KEY: apiKey,
-    shop: shop,
-    title: 'All Groups', 
-    message: 'Hello there from pug!',
-    groups: groupsObj 
+    res.render('pages/index', { 
+      API_KEY: apiKey,
+      shop: shop,
+      title: 'All Groups', 
+      message: 'Hello there from pug!',
+      groups: groupsObj 
+    })
   })
 });
 
