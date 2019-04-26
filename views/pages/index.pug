@@ -1,21 +1,32 @@
 html
   head
     title= title
-    script(src='https://cdn.shopify.com/s/assets/external/app.js')
+    script(src='https://unpkg.com/@shopify/app-bridge')
     script.
-      var apiKey = '#{API_KEY}';
-      var redirectUri = '#{redirectURI}';
-      var shopOrigin = "#{shop}";
-      var permissionUrl = '/oauth/authorize?client_id=#{API_KEY}&scope=read_products,read_content&redirect_uri=#{redirectURI}';
+      var AppBridge = window['app-bridge'];
+      var actions = window['app-bridge'].actions;    
+      var AppBridge = window['app-bridge'];
+      var createApp = AppBridge.default;
+      var Button = actions.Button;
+      var Redirect = actions.Redirect;   
+      var app = createApp({
+        apiKey: '#{API_KEY}',
+        shopOrigin: '#{shop}',
+      });        
 
-      ShopifyApp.init({apiKey: '#{API_KEY}', shopOrigin: 'https://#{shop}' });
-      var breadcrumb = { label: 'My breadcrumb', href: '/breadcrumb-link', target: 'app' }
 
-      var titleBarOptions = { title: 'My page title', breadcrumb: breadcrumb }
-
-      ShopifyApp.ready(function() {
-        ShopifyApp.Bar.initialize(titleBarOptions);
+      var breadcrumb = Button.create(app, {label: 'My breadcrumb'});
+      
+      breadcrumb.subscribe(Button.Action.CLICK, function() {
+        app.dispatch(Redirect.toApp({path: '/breadcrumb-link'}));
       });
+
+      var titleBarOptions = {
+        title: '#{title}',
+        breadcrumbs: breadcrumb,
+      };
+
+      var myTitleBar = TitleBar.create(app, titleBarOptions);   
 
   body
     h1= title
