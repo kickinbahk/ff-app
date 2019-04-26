@@ -30,6 +30,7 @@ const permissionUrl = `/oauth/authorize?client_id=${apiKey}&scope=read_products,
 app.use(express.static(DIST_DIR));
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
+app.locals.basedir = app.get('views');
 app.set('view engine', 'pug')
 app.use(helmet.frameguard({
   action: 'allow-from',
