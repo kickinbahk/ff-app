@@ -22,8 +22,16 @@ html
       var myTitleBar = TitleBar.create(app, titleBarOptions);   
 
   body
+    - var groups = groups
     h1= title
-    p=message
-    p=API_KEY
-    p=shop
+    p= message
+
+    each group in groups
+     ul 
+      li=group.groupName
+      li=group.groupID
+      li=group.zip
+      li=group.totalRaised
+      li=group.approved
+
 
