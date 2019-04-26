@@ -82,15 +82,22 @@ app.get('/shopify', (req, res) => {
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
   console.log(req.headers)
-  var stateCookie = '';
+  var groupsObj;
+
+  db.group.findAll().then(function (groups) {
+    console.log(groups)
+    groupsObj = groups;
+  }, function (e) {
+    res.status(500).send()
+  })
 
 
   res.render('pages/index', { 
     API_KEY: apiKey,
-    redirectURI: forwardingAddress + '/shopify/callback',
     shop: shop,
-    title: 'FundFlakes App', 
-    message: 'Hello there from pug!' 
+    title: 'All Groups', 
+    message: 'Hello there from pug!',
+    groups: groupsObj 
   })
 });
 
