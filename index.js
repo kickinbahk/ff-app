@@ -91,7 +91,6 @@ app.get('/shopify/callback', (req, res) => {
     res.status(500).send()
   }).then(function() {
 
-
     res.render('pages/index', { 
       API_KEY: apiKey,
       shop: shop,
