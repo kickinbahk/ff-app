@@ -1,7 +1,7 @@
 html
   head
     title= title
-    script(src='https://unpkg.com/@shopify/app-bridge')
+    include ./views/partials/head.pug
     script.
       var AppBridge = window['app-bridge'];
       var actions = window['app-bridge'].actions;    
@@ -25,8 +25,8 @@ html
     h1= title
     p= message
     each group in groups
+      p=group.groupName
       ul  
-        li=group.groupName
         li=group.groupID
         li=group.zip
         li=group.totalRaised
