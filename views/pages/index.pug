@@ -24,7 +24,9 @@ html
   body
     h1= title
     p= message
-    p=groups
+    each group in groups
+      ul  
+        li=group.groupName
 
 
 
