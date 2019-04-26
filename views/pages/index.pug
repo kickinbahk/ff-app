@@ -15,16 +15,8 @@ html
         shopOrigin: '#{shop}',
       });        
 
-
-      var breadcrumb = Button.create(app, {label: 'My breadcrumb'});
-
-      breadcrumb.subscribe(Button.Action.CLICK, function() {
-        app.dispatch(Redirect.toApp({path: '/breadcrumb-link'}));
-      });
-
       var titleBarOptions = {
-        title: '#{title}',
-        breadcrumbs: breadcrumb,
+        title: '#{title}'
       };
 
       var myTitleBar = TitleBar.create(app, titleBarOptions);   
