@@ -82,11 +82,11 @@ app.get('/shopify', (req, res) => {
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
   console.log(req.headers)
-  var groupsObj;
+  var groupsArr = [];
 
   db.group.findAll().then(function (groups) {
     console.log(groups)
-    groupsObj = groups;
+
   }, function (e) {
     res.status(500).send()
   })
