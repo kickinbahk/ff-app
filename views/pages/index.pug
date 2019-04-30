@@ -22,15 +22,34 @@ html
       var myTitleBar = TitleBar.create(app, titleBarOptions);   
 
   body
-    h1= title
-    p= message
-    each group in groups
-      p=group.groupName
-      ul  
-        li=group.groupID
-        li=group.zip
-        li=group.totalRaised
-        li=group.approved
+    div.header
+      h1= title
+    ul.groups.header-list
+      li.three.columns= "Group Name"
+      li.three.columns= "Group Id"
+      li.two.columns= "Zip"
+      li.two.columns= "Total Raised"
+      li.two.columns= "Approved"
+    .groups-list
+      each group in groups
+        ul.groups.row  
+          li.three.columns= group.groupName
+          li.three.columns= group.groupID
+          li.two.columns= group.zip
+          li.two.columns.fourth-item= group.totalRaised
+          if group.approved == true
+            li.two.columns.fifth-item
+              input(
+                type='checkbox'
+                name='approved'
+                checked
+              ) 
+          else
+            li.two.columns.fifth-item
+              input(
+                type='checkbox'
+                name='approved'
+              ) 
 
 
 

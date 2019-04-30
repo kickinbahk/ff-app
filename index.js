@@ -170,13 +170,43 @@ app.get('/groups/:groupID', async (req, res) => {
   })
 })
 
-app.post('/groups/:groupID', async (req, res) => {
+app.post('/groups/:groupID/totalRaised', async (req, res) => {
   var body = _.pick(req.body, 'groupID', 'totalRaised');
   var groupID = req.params.groupID
 
   console.log(body.totalRaised);
   
   db.group.update({ totalRaised: body.totalRaised }, {
+    where: {
+      groupID: groupID
+    }
+  }).then(function() {
+    db.group.findOne({
+      where: {
+        groupID: groupID
+      }
+    }).then(function(group) {
+      console.log(group)
+      if (group) {
+        res.json(group.toJSON())
+      } else {
+        res.status(404).send()
+      }
+    }, function (e) {
+      res.status(500).send()
+    })
+  }, function (e) {
+    res.status(500).send()
+  })
+})
+
+app.post('/groups/:groupID/approved', async (req, res) => {
+  var body = _.pick(req.body, 'groupID', 'approved');
+  var groupID = req.params.groupID
+
+  console.log(body.approved);
+  
+  db.group.update({ approved: body.approved }, {
     where: {
       groupID: groupID
     }
