@@ -204,7 +204,7 @@ app.post('/groups/:groupID/approved', async (req, res) => {
   var body = _.pick(req.body, 'groupID', 'approved');
   var groupID = req.params.groupID
 
-  console.log(body.approved);
+  console.log(req);
   
   db.group.update({ approved: body.approved }, {
     where: {

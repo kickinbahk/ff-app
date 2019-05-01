@@ -42,14 +42,19 @@ html
               input(
                 type='checkbox'
                 name='approved'
-                checked
+                checked=true
               ) 
           else
             li.two.columns.fifth-item
               input(
                 type='checkbox'
                 name='approved'
+                class='group-approved'
+                data-group=group.groupID
+                checked=false
               ) 
+
+    script(src='/views/assets/app.js')
 
 
 
