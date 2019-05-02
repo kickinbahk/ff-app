@@ -190,7 +190,7 @@ app.post('/groups', async (req, res) => {
         
               request.get(shopRequestUrl, { headers: shopRequestHeaders })
               .then((shopResponse) => {
-                res.status(200).end(shopResponse);
+                console.log("Shop Response: " + shopResponse)
               })
               .catch((error) => {
                 res.status(error.statusCode).send(error.error.error_description);
