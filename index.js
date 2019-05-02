@@ -135,7 +135,7 @@ app.post('/groups', async (req, res) => {
       }).then(function() {
         app.get('/shopify', (req, res) => {
           const { shop, hmac, code, state } = req.query;
-          console.log(req)
+          console.log(req.headers)
           var stateCookie = '';
         
           if (req.headers.cookie) {
@@ -145,8 +145,7 @@ app.post('/groups', async (req, res) => {
           if (state !== stateCookie) {
             return res.status(403).send('Request origin cannot be verified');
           }
-
-
+        
           if (shop && hmac && code) {
             const map = Object.assign({}, req.query);
             delete map['signature'];
@@ -191,7 +190,7 @@ app.post('/groups', async (req, res) => {
         
               request.get(shopRequestUrl, { headers: shopRequestHeaders })
               .then((shopResponse) => {
-                console.log(shopResponse)
+                res.status(200).end(shopResponse);
               })
               .catch((error) => {
                 res.status(error.statusCode).send(error.error.error_description);
@@ -200,6 +199,18 @@ app.post('/groups', async (req, res) => {
             .catch((error) => {
               res.status(error.statusCode).send(error.error.error_description);
             });
+        
+            request.post(accessTokenRequestUrl, { json: accessTokenPayload })
+            .then((accessTokenResponse) => {
+              res.render('views/pages/index.html');
+            })
+            .catch((error) => {
+              res.status(error.statusCode).send(error.error.error_description);
+            });
+          } else {
+            res.status(400).send('Required parameters missing');
+          }
+
         });
 
       }, function (e) {
