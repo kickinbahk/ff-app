@@ -134,7 +134,7 @@ app.post('/groups', async (req, res) => {
         })
       }).then(function() {
             
-      const accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
+      const accessTokenRequestUrl = forwardingAddress + '/admin/oauth/access_token';
       const accessTokenPayload = {
         client_id: apiKey,
         client_secret: apiSecret,
@@ -169,7 +169,7 @@ app.post('/groups', async (req, res) => {
       .catch((error) => {
         res.status(error.statusCode).send(error.error.error_description);
       });
-      
+
     });
     } else {
       res.status(506).send({ error: 'Group ID already exists' });
