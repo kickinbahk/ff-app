@@ -135,7 +135,7 @@ app.post('/groups', async (req, res) => {
       }).then(function() {
         app.get('/shopify', (req, res) => {
           const { shop, hmac, code, state } = req.query;
-          console.log(req.headers)
+          console.log("Req headers: " + req.headers)
           var stateCookie = '';
         
           if (req.headers.cookie) {
