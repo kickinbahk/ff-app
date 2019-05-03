@@ -848,6 +848,8 @@ there.
 /* Custom CSS
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
+/* === Main Page === */
+
 ul {
   list-style: none;
 }
@@ -871,4 +873,25 @@ li.fourth-item {
 }
 li.fifth-item {
   padding-left: 40px;
+}
+
+/* === Group Admin === */
+
+h1#group-name {
+  margin: 15px;
+}
+.group-div {
+  width: 100%;
+  background-color: #EFA755;
+  margin: 10px 0;
+} 
+.group-div .secondary-title {
+  text-align: center;
+  padding: 10px 0;
+}
+.group-info p {
+  font-size: 16px;
+}
+.group-info .item-title {
+  font-weight: bold;
 }

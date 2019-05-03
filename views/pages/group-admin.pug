@@ -1,0 +1,27 @@
+html
+  head
+    title= title
+    include /partials/head.pug  
+
+  body
+    div.header
+      h1#group-name #{title} Admin Page
+    .group-div
+      h4.secondary-title Group Information
+
+    .five.columns.group-info
+      p.five.columns #[span.item-title Group ID:] #{group.groupID}
+      p.six.columns #[span.item-title Group Zip:] #{group.zip}
+    .five.columns.group-info
+      p.five.columns #[span.item-title Total Raised: ] $#{group.totalRaised}  
+      p.five.columns #[span.item-title Approved?:] 
+        if group.approved
+          span Yes
+        else 
+          span Pending
+
+
+    script(src='/views/assets/app.js')
+
+
+

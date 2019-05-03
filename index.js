@@ -96,7 +96,6 @@ app.get('/shopify/callback', (req, res) => {
       API_KEY: apiKey,
       shop: shop,
       title: 'All Groups', 
-      message: 'Hello there from pug!',
       groups: groupsObj 
     })
   })
@@ -246,6 +245,24 @@ app.get('/groups/:groupID', async (req, res) => {
     } else {
       res.status(404).send()
     }
+  }, function (e) {
+    res.status(500).send()
+  })
+})
+
+app.get('/groups/:groupID/admin', async (req, res) => {
+  var groupID = req.params.groupID
+
+  db.group.findOne({
+    where: {
+      groupID: groupID
+    }
+  }).then(function (group) {
+    res.render('pages/group-admin', { 
+      title: group.groupName, 
+      message: 'Hello there from pug!',
+      group: group
+    })
   }, function (e) {
     res.status(500).send()
   })
