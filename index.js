@@ -150,7 +150,7 @@ app.post('/groups', async (req, res) => {
         console.log("in then: " + group)  
         db.store.findOne({
           where: {
-            storeName: group.storeName
+            storeName: group.store
           }
         }).then(function(store) {
           const accessTokenRequestUrl = 'https://' + store.storeName + '/admin/oauth/access_token';
