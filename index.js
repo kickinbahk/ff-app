@@ -169,6 +169,7 @@ app.post('/groups', async (req, res) => {
       
             request.get(shopRequestUrl, { headers: shopRequestHeaders })
             .then((shopResponse) => {
+              console.log(shopResponse)
               var production = _.find(shopResponse, function(theme) {
                 console.log(theme)
                 if (theme.role == "main") {
