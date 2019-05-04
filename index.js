@@ -42,17 +42,17 @@ app.get('/', (req, res) => {
 })
 
 const PORT = process.env.PORT || 3000;
-// db.sequelize.sync().then(function () {
-//   app.listen(PORT, function () {
-//     console.log(`Express listening on port ${PORT}...`)
-//   })
-// });
-
-db.sequelize.sync({force: true}).then(function () {
+db.sequelize.sync().then(function () {
   app.listen(PORT, function () {
-    console.log(`DB reset...Express listening on port ${PORT}...`)
+    console.log(`Express listening on port ${PORT}...`)
   })
 });
+
+// db.sequelize.sync({force: true}).then(function () {
+//   app.listen(PORT, function () {
+//     console.log(`DB reset...Express listening on port ${PORT}...`)
+//   })
+// });
 
 
 app.get('/shopify', (req, res) => {
@@ -89,7 +89,7 @@ app.get('/shopify/callback', (req, res) => {
       storeName: shop
     }
   }).then(function(store) {
-    if (!shop) {
+    if (!store) {
       db.store.create({ shop: shop, storeToken: code }).then(function (store) {
         store.reload().then(function (store) {
           res.json(store.toJSON())
@@ -153,6 +153,7 @@ app.post('/groups', async (req, res) => {
             storeName: group.store
           }
         }).then(function(store) {
+          console.log('store: ' + store)
           const accessTokenRequestUrl = 'https://' + store.storeName + '/admin/oauth/access_token';
           const accessTokenPayload = {
             client_id: apiKey,
