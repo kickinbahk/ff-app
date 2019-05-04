@@ -155,7 +155,7 @@ app.post('/groups', async (req, res) => {
             storeName: group.storeName
           }
         }).then(function(store) {
-          const accessTokenRequestUrl = store.storeName + '/admin/oauth/access_token';
+          const accessTokenRequestUrl = 'https://' + store.storeName + '.myshopify.com/admin/oauth/access_token';
           const accessTokenPayload = {
             client_id: apiKey,
             client_secret: apiSecret,
@@ -166,7 +166,7 @@ app.post('/groups', async (req, res) => {
           .then((accessTokenResponse) => {
             const accessToken = accessTokenResponse.access_token;
             // DONE: Use access token to make API call to 'shop' endpoint
-            const shopRequestUrl = store.storeName + '/admin/api/2019-04/themes.json';
+            const shopRequestUrl = 'https://' + store.storeName + 'myshopify.com/admin/api/2019-04/themes.json';
             const shopRequestHeaders = {
               'X-Shopify-Access-Token': accessToken,
             };
