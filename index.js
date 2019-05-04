@@ -128,10 +128,11 @@ app.post('/groups', async (req, res) => {
 
     if (!group) {
       db.group.create(body).then(function (group) {
-        return group.reload().then(function (group) {
+        group.reload().then(function (group) {
           res.json(group.toJSON())
         })
       }).then(function() {
+        console.log("in then")
         app.get('/shopify', (req, res) => {
           const { shop, hmac, code, state } = req.query;
           console.log("Req headers: " + req.headers)
