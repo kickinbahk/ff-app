@@ -42,23 +42,21 @@ app.get('/', (req, res) => {
 })
 
 const PORT = process.env.PORT || 3000;
-// db.sequelize.sync().then(function () {
-//   app.listen(PORT, function () {
-//     console.log(`Express listening on port ${PORT}...`)
-//   })
-// });
-
-db.sequelize.sync({force: true}).then(function () {
+db.sequelize.sync().then(function () {
   app.listen(PORT, function () {
-    console.log(`DB reset...Express listening on port ${PORT}...`)
+    console.log(`Express listening on port ${PORT}...`)
   })
 });
+
+// db.sequelize.sync({force: true}).then(function () {
+//   app.listen(PORT, function () {
+//     console.log(`DB reset...Express listening on port ${PORT}...`)
+//   })
+// });
 
 
 app.get('/shopify', (req, res) => {
   const shop = req.query.shop;
-  console.log(shop);
-
 
   if (shop) {
     const state = nonce();
@@ -82,7 +80,6 @@ app.get('/shopify', (req, res) => {
 
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
-  console.log(req)
   var groupsObj;
 
   db.store.findOne({
@@ -101,7 +98,6 @@ app.get('/shopify/callback', (req, res) => {
   })
 
   db.group.findAll().then(function (groups) {
-    console.log(groups)
     groupsObj = groups;
   }, function (e) {
     res.status(500).send()
@@ -173,7 +169,13 @@ app.post('/groups', async (req, res) => {
       
             request.get(shopRequestUrl, { headers: shopRequestHeaders })
             .then((shopResponse) => {
-              console.log("Shop Response: " + shopResponse)
+              var production = _.find(shopResponse, function(theme) {
+                console.log(theme)
+                if (theme.role == "main") {
+                  console.log(theme.id)
+                  return theme.id  
+                }
+              })
             })
             .catch((error) => {
               res.status(error.statusCode).send(error.error.error_description);
