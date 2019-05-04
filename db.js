@@ -16,6 +16,7 @@ if (env === 'production') {
 var db = {}
 
 db.group = sequelize.import(`${__dirname}/models/group.js`)
+db.store = sequelize.import(`${__dirname}/models/store.js`)
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
