@@ -92,7 +92,7 @@ app.get('/shopify/callback', (req, res) => {
   .then((accessTokenResponse) => {
     const accessToken = accessTokenResponse.access_token;
     // DONE: Use access token to make API call to 'shop' endpoint
-    const shopRequestUrl = 'https://' + store.storeName + '/admin/api/2019-04/themes.json';
+    const shopRequestUrl = 'https://' + shop + '/admin/api/2019-04/themes.json';
     const shopRequestHeaders = {
       'X-Shopify-Access-Token': accessToken,
     };
