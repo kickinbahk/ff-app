@@ -82,7 +82,6 @@ app.get('/shopify', (req, res) => {
 
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
-  console.log("shop: " + shop + " | code: " + code);
   var groupsObj;
 
   db.store.findOne({
@@ -154,7 +153,7 @@ app.post('/groups', async (req, res) => {
             storeName: group.storeName
           }
         }).then(function(store) {
-          const accessTokenRequestUrl = 'https://' + store.storeName + '.myshopify.com/admin/oauth/access_token';
+          const accessTokenRequestUrl = 'https://' + store.storeName + '/admin/oauth/access_token';
           const accessTokenPayload = {
             client_id: apiKey,
             client_secret: apiSecret,
@@ -165,7 +164,7 @@ app.post('/groups', async (req, res) => {
           .then((accessTokenResponse) => {
             const accessToken = accessTokenResponse.access_token;
             // DONE: Use access token to make API call to 'shop' endpoint
-            const shopRequestUrl = 'https://' + store.storeName + 'myshopify.com/admin/api/2019-04/themes.json';
+            const shopRequestUrl = 'https://' + store.storeName + '/admin/api/2019-04/themes.json';
             const shopRequestHeaders = {
               'X-Shopify-Access-Token': accessToken,
             };
