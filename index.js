@@ -132,6 +132,7 @@ app.post('/groups', async (req, res) => {
         group.reload().then(function (group) {
           res.json(group.toJSON())
         })
+        return group
       }).then(function(group) {
         console.log("in then: " + group)  
         const accessTokenRequestUrl = forwardingAddress + '/admin/oauth/access_token';
