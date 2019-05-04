@@ -56,6 +56,18 @@ module.exports = function (sequelize, DataTypes) {
           }
         }
       }
+    },
+    store: {
+      type.DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1, 250],
+        isString: function (value) {
+          if (typeof value !== 'string') {
+            throw new Error('Store must be a string')
+          }
+        }        
+      }
     }
   })
 }
