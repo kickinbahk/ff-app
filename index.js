@@ -169,8 +169,8 @@ app.post('/groups', async (req, res) => {
       
             request.get(shopRequestUrl, { headers: shopRequestHeaders })
             .then((shopResponse) => {
-              console.log(shopResponse)
-              var production = _.find(shopResponse, function(theme) {
+              console.log(shopResponse.themes)
+              var production = _.find(shopResponse.themes, function(theme) {
                 console.log(theme)
                 if (theme.role == "main") {
                   console.log(theme.id)
@@ -181,14 +181,6 @@ app.post('/groups', async (req, res) => {
             .catch((error) => {
               res.status(error.statusCode).send(error.error.error_description);
             });
-          })
-          .catch((error) => {
-            res.status(error.statusCode).send(error.error.error_description);
-          });
-      
-          request.post(accessTokenRequestUrl, { json: accessTokenPayload })
-          .then((accessTokenResponse) => {
-            res.render('views/pages/index.html');
           })
           .catch((error) => {
             res.status(error.statusCode).send(error.error.error_description);
