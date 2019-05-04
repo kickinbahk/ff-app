@@ -42,17 +42,17 @@ app.get('/', (req, res) => {
 })
 
 const PORT = process.env.PORT || 3000;
-// db.sequelize.sync().then(function () {
-//   app.listen(PORT, function () {
-//     console.log(`Express listening on port ${PORT}...`)
-//   })
-// });
-
-db.sequelize.sync({force: true}).then(function () {
+db.sequelize.sync().then(function () {
   app.listen(PORT, function () {
-    console.log(`DB reset...Express listening on port ${PORT}...`)
+    console.log(`Express listening on port ${PORT}...`)
   })
 });
+
+// db.sequelize.sync({force: true}).then(function () {
+//   app.listen(PORT, function () {
+//     console.log(`DB reset...Express listening on port ${PORT}...`)
+//   })
+// });
 
 
 app.get('/shopify', (req, res) => {
@@ -165,7 +165,7 @@ app.post('/groups', async (req, res) => {
           }
         }).then(function(store) {
           console.log('store: ' + store)
-          const shopRequestUrl = 'https://' + shop + '/admin/api/2019-04/themes.json';
+          const shopRequestUrl = 'https://' + store.storeName + '/admin/api/2019-04/themes.json';
           const shopRequestHeaders = {
             'X-Shopify-Access-Token': store.storeToken,
           };
