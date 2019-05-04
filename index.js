@@ -88,7 +88,7 @@ app.get('/shopify/callback', (req, res) => {
 
   db.store.findOne({
     where: {
-      shopName: shop
+      storeName: shop
     }
   }).then(function(store) {
     if (!shop) {
