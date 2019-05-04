@@ -172,6 +172,7 @@ app.post('/groups', async (req, res) => {
 
           request.get(shopRequestUrl, { headers: shopRequestHeaders })
           .then((shopResponse) => {
+            console.log("in json request")
             console.log(shopResponse.themes)
             var production = _.find(shopResponse.themes, function(theme) {
               console.log(theme)
