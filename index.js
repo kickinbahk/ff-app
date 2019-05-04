@@ -86,6 +86,21 @@ app.get('/shopify/callback', (req, res) => {
   console.log("code: " + code);
   var groupsObj;
 
+  db.store.findOne({
+    where: {
+      shopName: shop
+    }
+  }).then(function(store) {
+    if (!shop) {
+      db.store.create({ shop: shop, storeToken: code }).then(function (store) {
+        store.reload().then(function (store) {
+          res.json(store.toJSON())
+        })
+        return store
+      })
+    }
+  })
+
   db.group.findAll().then(function (groups) {
     console.log(groups)
     groupsObj = groups;
