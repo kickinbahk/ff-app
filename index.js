@@ -91,11 +91,6 @@ app.get('/shopify/callback', (req, res) => {
   request.post(accessTokenRequestUrl, { json: accessTokenPayload })
   .then((accessTokenResponse) => {
     const accessToken = accessTokenResponse.access_token;
-    // DONE: Use access token to make API call to 'shop' endpoint
-    const shopRequestUrl = 'https://' + shop + '/admin/api/2019-04/themes.json';
-    const shopRequestHeaders = {
-      'X-Shopify-Access-Token': accessToken,
-    };
 
     db.store.findOne({
       where: {
@@ -170,6 +165,7 @@ app.post('/groups', async (req, res) => {
           }
         }).then(function(store) {
           console.log('store: ' + store)
+          const shopRequestUrl = 'https://' + shop + '/admin/api/2019-04/themes.json';
           const shopRequestHeaders = {
             'X-Shopify-Access-Token': store.storeToken,
           };
