@@ -165,6 +165,8 @@ app.post('/groups', async (req, res) => {
           }
         }).then(function(store) {
           console.log('store: ' + store.storeName)
+          console.log('Access: ' + store.accessToken)
+          console.log('Store Token: ' + store.storeToken)
           const shopRequestUrl = 'https://' + store.storeName + '/admin/api/2019-04/themes.json';
           const shopRequestHeaders = {
             'X-Shopify-Access-Token': store.storeToken,
