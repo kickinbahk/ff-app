@@ -82,8 +82,7 @@ app.get('/shopify', (req, res) => {
 
 app.get('/shopify/callback', (req, res) => {
   const { shop, hmac, code, state } = req.query;
-  console.log(req.headers);
-  console.log("code: " + code);
+  console.log("shop: " + shop + " | code: " + code);
   var groupsObj;
 
   db.store.findOne({
