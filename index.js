@@ -175,18 +175,16 @@ app.post('/groups', async (req, res) => {
           request.get(shopRequestUrl, { headers: shopRequestHeaders })
           .then((shopResponse) => {
             console.log("in json request")
-            console.log(shopResponse.themes)
+            console.log(shopResponse)
 
-            var production = _.find(shopResponse.themes, function(themes) {
-              return _.find(themes, function() {
+            _.find(shopResponse, function(themes) {
+               _.find(themes, function() {
                 console.log(theme)
                 if (theme.role == "main") {
                   console.log(theme.id)
-                  return theme.id  
                 }
               })
             })
-            return production
           })
           .catch((error) => {
             res.status(error.statusCode).send(error.error.error_description);
