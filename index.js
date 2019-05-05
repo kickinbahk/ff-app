@@ -177,12 +177,14 @@ app.post('/groups', async (req, res) => {
             console.log("in json request")
             console.log(shopResponse.themes)
 
-            var production = _.find(shopResponse, function(theme) {
-              console.log(theme)
-              if (theme.role == "main") {
-                console.log(theme.id)
-                return theme.id  
-              }
+            var production = _.find(shopResponse.themes, function(themes) {
+              return _.find(themes, function {
+                console.log(theme)
+                if (theme.role == "main") {
+                  console.log(theme.id)
+                  return theme.id  
+                }
+              })
             })
             return production
           })
