@@ -178,7 +178,7 @@ app.post('/groups', async (req, res) => {
             console.log(shopResponse.themes)
 
             var production = _.find(shopResponse.themes, function(themes) {
-              return _.find(themes, function {
+              return _.find(themes, function() {
                 console.log(theme)
                 if (theme.role == "main") {
                   console.log(theme.id)
