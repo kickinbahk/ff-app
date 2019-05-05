@@ -42,17 +42,17 @@ app.get('/', (req, res) => {
 })
 
 const PORT = process.env.PORT || 3000;
-// db.sequelize.sync().then(function () {
-//   app.listen(PORT, function () {
-//     console.log(`Express listening on port ${PORT}...`)
-//   })
-// });
-
-db.sequelize.sync({force: true}).then(function () {
+db.sequelize.sync().then(function () {
   app.listen(PORT, function () {
-    console.log(`DB reset...Express listening on port ${PORT}...`)
+    console.log(`Express listening on port ${PORT}...`)
   })
 });
+
+// db.sequelize.sync({force: true}).then(function () {
+//   app.listen(PORT, function () {
+//     console.log(`DB reset...Express listening on port ${PORT}...`)
+//   })
+// });
 
 
 app.get('/shopify', (req, res) => {
@@ -175,15 +175,16 @@ app.post('/groups', async (req, res) => {
           request.get(shopRequestUrl, { headers: shopRequestHeaders })
           .then((shopResponse) => {
             console.log("in json request")
-            console.log(shopResponse)
+            console.log(shopResponse.themes)
 
-            var production = _.find(shopResponse.themes, function(theme) {
+            var production = _.find(shopResponse, function(theme) {
               console.log(theme)
               if (theme.role == "main") {
                 console.log(theme.id)
                 return theme.id  
               }
             })
+            return production
           })
           .catch((error) => {
             res.status(error.statusCode).send(error.error.error_description);
