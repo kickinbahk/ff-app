@@ -177,6 +177,13 @@ app.post('/groups', async (req, res) => {
             console.log("in json request")
             console.log(shopResponse)
 
+            var production = _.find(shopResponse.themes, function(theme) {
+              console.log(theme)
+              if (theme.role == "main") {
+                console.log(theme.id)
+                return theme.id  
+              }
+            })
           })
           .catch((error) => {
             res.status(error.statusCode).send(error.error.error_description);
