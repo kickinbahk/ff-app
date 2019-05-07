@@ -176,7 +176,7 @@ app.post('/groups', async (req, res) => {
           .then((shopResponse) => {
             console.log("in json request")
             console.log(shopResponse)
-
+            // TODO: Convert shop response to JSON and process that
             _.find(shopResponse, function(themes) {
                _.find(themes, function() {
                 console.log(theme)
